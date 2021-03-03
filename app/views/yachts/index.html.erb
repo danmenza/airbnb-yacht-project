@@ -1,0 +1,72 @@
+
+<div class="sticky header-search">
+  <h3 class="heading">Search for your dream yacht getaway now:</h3>
+  <form class="search-form form-inline container ">
+      <div class="col-auto my-1">
+      <label class="mr-sm-2" for="destination">Location</label>
+      <input class="text-input form-control" type="text" placeholder="Where are you going?" name="destination" id="destination" />
+      </div>
+
+      <div class="col-auto my-1">
+        <label class="mr-sm-2" for="checkin">Check-In</label>
+        <input class="date form-control" type="date" placeholder="dd-mm-yyyy" id ="checkin" name="checkin" />
+      </div>
+      <div class="col-auto my-1">
+        <label class="mr-sm-2" for="checkout">Check-Out</label>
+        <input class="date form-control" type="date" placeholder="dd-mm-yyyy" id="checkout" name="checkout" />
+      </div>
+
+    <div class="col-auto my-1">
+    <label class="mr-sm-2" for="guests">Guests</label>
+      <select id="guests" name="guests" type="text" class="custom-select form-control">
+        <option  selected value="5">up to 5 </option>
+          <option value="10">up to 10 </option>
+          <option value="25">up to 25 </option>
+          <option value="50">up to 50 </option>
+      </select>
+    </div>
+   <div class="col-auto my-1">
+      <label class="mr-sm-2" for="price">Price Range</label>
+      <select id="price" name="price" type="text" class="custom-select form-control">
+        <option selected value="1">£</option>
+          <option value="2">££</option>
+          <option value="3">£££</option>
+          <option value="4">££££</option>
+      </select>
+    </div>
+    <div id="search-button-div" class="col-auto my-1">
+      <button id="search-button" type="submit" class="btn btn-primary" style="float: right;">Search</button>
+    </div>
+  </form>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="cards">
+        <% @yachts.each do |yacht| %>
+          <div class="card-category" style="background-image: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.0)), url()">
+            <%= link_to yacht_path(yacht) do %>
+              <% if yacht.photo.attached? %>
+               <%= cl_image_tag yacht.photo.key, crop: :fill, class: "yacht-image"%>
+              <% end %>
+            <% end %>
+            <p class="card-text">Name: <%= yacht.yacht_name %></p>
+            <p>£<%= yacht.cost_per_night %>/night</p>
+            <p>Location: <%= yacht.yacht_location %></p>
+            <%= link_to yacht_path(yacht) do %>
+              <p class="fixed btn btn-primary btn-md">View This Yacht</p>
+            <% end %>
+          </div>
+        <% end %>
+        </div>
+    </div>
+    <div class="col-sm-6">
+      <div id="map"
+           style="width: 100%; height: 100vh; position: sticky:top:0;"
+           data-markers="<%= @markers.to_json %>"
+           data-mapbox-api-key="<%= ENV['MAPBOX_API_KEY'] %>">
+      </div>
+    </div>
+  </div>
+</div>
+
